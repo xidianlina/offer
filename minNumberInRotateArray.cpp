@@ -6,23 +6,35 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
 */
 
 #include <iostream>
-#include <vector>
 
-class A {
+class Solution{
 public:
-	A() :n2(0), n1(n2 + 2){}
-	void print() {
-		std::cout << "n1 = " << n1 << " n2 = " << n2 << std::endl;
+	int minNumberInRotateArray(vector<int> rotateArray) {
+        int low=0;
+		int high=rotateArray.size()-1;
+		int mid=low;
+		while(rotateArray[low]>=rotateArray[high]){
+			if(high-low==1){
+				mid=high;
+				break;
+			}
+			mid=(low+high)/2;
+			if(rotateArray[low]==rotateArray[high]&&rotateArray[mid]==rotateArray[low]){
+				return minInOrder(rotateArray,low,high);
+			}
+			if(rotateArray[mid]>=rotateArray[low])
+				low=mid;
+			else if(rotateArray[mid]<=rotateArray[high])
+				high=mid;
+		}
+		return rotateArray[mid];
+    }
+	int minInOrder(vector<int> vec,int low,int high){
+		int min=vec[low];
+		for(int i=low+1;i<=high;i++){
+			if(min>vec[i])
+				min=vec[i];
+		}
+		return min;
 	}
-
-private :
-	int n1;
-	int n2;
 };
-
-int main() {
-	int* p = new int[10];
-	std::cout << sizeof(p) << std::endl;
-
-	return 0;
-}
