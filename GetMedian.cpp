@@ -11,29 +11,29 @@
 using namespace std;
 
 class Solution {
-	priority_queue<int, vector<int>, less<int>> min;
-	priority_queue<int, vector<int>, greater<int>> max;
+	priority_queue<int, vector<int>, less<int>> maxHeap;
+	priority_queue<int, vector<int>, greater<int>> minHeap;
 public:
 	void Insert(int num)
 	{
-		if (min.empty() || num <= min.top())
-			min.push(num);
+		if (maxHeap.empty() || num <= maxHeap.top())
+			maxHeap.push(num);
 		else
-			max.push(num);
-		if (min.size() == max.size() + 2)
+			minHeap.push(num);
+		if (maxHeap.size() == minHeap.size() + 2)
 		{
-			max.push(min.top());
-			min.pop();
+			minHeap.push(maxHeap.top());
+			maxHeap.pop();
 		}
-		if (min.size() + 1 == max.size())
+		if (maxHeap.size() + 1 == minHeap.size())
 		{
-			min.push(max.top());
-			max.pop();
+			maxHeap.push(minHeap.top());
+			minHeap.pop();
 		}
 	}
 
 	double GetMedian()
 	{
-		return min.size() == max.size() ? (min.top() + max.top()) / 2.0 : min.top();
+		return maxHeap.size() == minHeap.size() ? (maxHeap.top() + minHeap.top()) / 2.0 : maxHeap.top();
 	}
 };
